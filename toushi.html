@@ -16,6 +16,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6508744207193174"
+         crossorigin="anonymous"></script>
     
     <!-- Google Analytics GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXX"></script>
@@ -293,6 +295,7 @@
             font-style: italic;
         }
 
+
         @media (max-width: 600px) {
             body {
                 padding: 20px 15px;
@@ -349,7 +352,7 @@
                 <div class="input-row">
                     <div class="input-item">
                         <label class="input-label" for="monthlyAmount">毎月の積立額（円）</label>
-                        <input type="number" id="monthlyAmount" class="input-field" placeholder="例: 30000" min="1" max="1000000" step="1" aria-label="毎月の積立額を円単位で入力">
+                        <input type="number" id="monthlyAmount" class="input-field" placeholder="例: 10000" min="1" max="1000000" step="1" aria-label="毎月の積立額を円単位で入力">
                     </div>
                     <div class="input-item">
                         <label class="input-label" for="yearsAmount">投資期間（年）</label>
@@ -366,6 +369,11 @@
         <div class="results" id="results">
             <div class="chart-container">
                 <canvas id="investmentChart" role="img" aria-label="投資シミュレーション結果のグラフ"></canvas>
+            </div>
+            
+            <!-- AdSense広告 -->
+            <div id="adContainer" style="margin: 30px 0; padding: 20px; text-align: center; min-width: 300px; width: 100%; min-height: 280px;">
+                <!-- 広告はJavaScriptで動的に挿入 -->
             </div>
             
             <div class="summary-cards">
@@ -622,6 +630,34 @@
             });
 
             results.style.display = 'block';
+            
+            // AdSense広告の動的挿入と初期化（結果表示後）
+            setTimeout(() => {
+                try {
+                    const adContainer = document.getElementById('adContainer');
+                    
+                    // 広告要素を動的に作成・挿入
+                    const adElement = document.createElement('ins');
+                    adElement.className = 'adsbygoogle';
+                    adElement.style.display = 'block';
+                    adElement.style.width = '100%';
+                    adElement.style.minHeight = '250px';
+                    adElement.setAttribute('data-ad-client', 'ca-pub-6508744207193174');
+                    adElement.setAttribute('data-ad-slot', '1780206636');
+                    adElement.setAttribute('data-ad-format', 'auto');
+                    adElement.setAttribute('data-full-width-responsive', 'true');
+                    
+                    // コンテナに追加
+                    adContainer.innerHTML = '';
+                    adContainer.appendChild(adElement);
+                    
+                    // 広告を初期化
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    console.log('AdSense dynamically inserted and initialized - container width:', adContainer.offsetWidth);
+                } catch(e) {
+                    console.error('AdSense dynamic insertion error:', e);
+                }
+            }, 1000);
         }
 
         function showCalculatingStatus(show) {
