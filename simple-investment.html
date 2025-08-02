@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投資シミュレータ - 銀行・貯蓄型保険・NISA比較ツール（無料）</title>
-    <meta name="description" content="毎月の積立額と投資期間を入力するだけで、銀行預金・貯蓄型保険・NISAの資産推移を比較できる無料シミュレーター。すべての計算はブラウザ内で完結します。">
+    <title>シンプル投資比較ツール - 銀行預金vs投資利率比較（無料）</title>
+    <meta name="description" content="毎月の積立額と利率を入力するだけで、銀行預金（0%）と投資利率の30年間の資産推移を比較できる無料シミュレーター。">
     
     <!-- OGP Meta Tags -->
-    <meta property="og:title" content="投資シミュレータ - 銀行・貯蓄型保険・NISA比較ツール（無料）">
-    <meta property="og:description" content="毎月の積立額と投資期間を入力するだけで、銀行預金・貯蓄型保険・NISAの資産推移を比較。無料でお使いいただけるシミュレーターです。">
+    <meta property="og:title" content="シンプル投資比較ツール - 銀行預金vs投資利率比較（無料）">
+    <meta property="og:description" content="毎月の積立額と利率を入力するだけで、銀行預金と投資利率の30年間の資産推移を比較。無料でお使いいただけるシミュレーターです。">
     <meta property="og:image" content="https://www.coommu.com/wp-content/uploads/2025/08/toushi1200x630.webp">
-    
-    <meta property="og:url" content="https://www.coommu.com/wp-content/uploads/toushi.html">
+    <meta property="og:url" content="https://www.coommu.com/wp-content/uploads/simple-investment.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Coommu">
     
@@ -22,49 +21,6 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6508744207193174"
          crossorigin="anonymous"></script>
     
-    <!-- Google Analytics GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-91GWWQXW8F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-91GWWQXW8F');
-    </script>
-    
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "投資シミュレータ",
-        "description": "毎月の積立額と投資期間を入力するだけで、銀行預金・貯蓄型保険・NISAの資産推移を比較できる無料シミュレーター。すべての計算はブラウザ内で完結します。",
-        "url": "https://www.coommu.com/wp-content/uploads/toushi.html",
-        "applicationCategory": "FinanceApplication",
-        "operatingSystem": "Web Browser",
-        "price": "0",
-        "priceCurrency": "JPY",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "JPY"
-        },
-        "featureList": [
-            "銀行預金シミュレーション",
-            "貯蓄型保険シミュレーション", 
-            "NISAシミュレーション",
-            "投資期間カスタマイズ",
-            "リアルタイム計算",
-            "グラフ表示",
-            "完全ブラウザ内処理"
-        ],
-        "browserRequirements": "JavaScript有効なブラウザ",
-        "softwareVersion": "1.0",
-        "author": {
-            "@type": "Person",
-            "name": "投資シミュレータ開発者"
-        }
-    }
-    </script>
     <style>
         * {
             margin: 0;
@@ -283,22 +239,136 @@
         }
 
         .bank-card .card-amount { color: #dc3545; }
-        .insurance-card .card-amount { color: #fd7e14; }
-        .nisa-card .card-amount { color: #198754; }
+        .investment-card .card-amount { color: #198754; }
+        .difference-card .card-amount.positive { color: #198754; }
+        .difference-card .card-amount.negative { color: #dc3545; }
+        .difference-card .card-amount.neutral { color: #6c757d; }
 
-        .calculating {
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
+        .preset-buttons {
+            width: 100%;
+            margin-top: 30px;
+            padding: 30px 0;
+            border-top: 1px solid #e8e3de;
         }
 
-        .calculating-message {
+        .preset-buttons-title {
             text-align: center;
-            color: #7a736b;
-            font-size: 0.9em;
-            margin-top: 10px;
-            font-style: italic;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #5d5852;
+            margin-bottom: 20px;
         }
 
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #d4cfc7;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #5d5852;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Noto Sans JP', sans-serif;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .preset-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #8b8074;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(139, 128, 116, 0.15);
+        }
+
+        .preset-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(139, 128, 116, 0.2);
+        }
+
+        .preset-btn.selected {
+            background: #8b8074;
+            color: white;
+            border-color: #8b8074;
+            box-shadow: 0 2px 8px rgba(139, 128, 116, 0.3);
+        }
+
+        .preset-btn.selected:hover {
+            background: #7a6f63;
+            border-color: #7a6f63;
+        }
+
+        .period-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            color: #7a736b;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .year-adjustment {
+            width: 100%;
+            margin-top: 30px;
+            padding: 30px 0;
+            border-top: 1px solid #e8e3de;
+        }
+
+        .year-adjustment-title {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #5d5852;
+            margin-bottom: 20px;
+        }
+
+        .year-input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .year-input-label {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #5d5852;
+        }
+
+        .year-input-field {
+            width: 120px;
+            padding: 12px 16px;
+            font-size: 1.2em;
+            border: 2px solid #d4cfc7;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #4a4a4a;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .year-input-field:focus {
+            outline: none;
+            border-color: #8b8074;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(139, 128, 116, 0.15);
+            transform: translateY(-1px);
+        }
 
         @media (max-width: 600px) {
             body {
@@ -339,45 +409,51 @@
             .input-item {
                 min-width: auto;
             }
+
+            .preset-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 10px;
+            }
+
+            .preset-btn {
+                font-size: 0.9em;
+                padding: 12px 14px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>投資シミュレータ</h1>
+        <h1>積立投資シミュレーター｜毎月の金額と利率で30年後をグラフ比較</h1>
         <div class="subtitle">
-            <span>銀行 • 貯蓄型保険 • NISA</span>
+            <span>銀行預金（0%）と投資利率で、積立の将来資産を年複利で可視化できます。</span>
         </div>
     </div>
 
     <div class="main-area">
+        
         <div class="input-container">
             <div class="input-group">
                 <div class="input-row">
                     <div class="input-item">
                         <label class="input-label" for="monthlyAmount">毎月の積立額（円）</label>
-                        <input type="number" id="monthlyAmount" class="input-field" placeholder="例: 10000" min="1" max="1000000" step="1" aria-label="毎月の積立額を円単位で入力">
+                        <input type="number" id="monthlyAmount" class="input-field" placeholder="例: 30000" min="1" max="1000000" step="1" aria-label="毎月の積立額を円単位で入力">
                     </div>
                     <div class="input-item">
-                        <label class="input-label" for="yearsAmount">投資期間（年）</label>
-                        <input type="number" id="yearsAmount" class="input-field" placeholder="例: 30" min="1" max="100" step="1" aria-label="投資期間を年単位で入力">
+                        <label class="input-label" for="interestRate">投資利率（%）</label>
+                        <input type="number" id="interestRate" class="input-field" placeholder="例: 5.0" min="-50" max="50" step="0.1" aria-label="年間投資利率をパーセント単位で入力（マイナス値も可能）">
                     </div>
                 </div>
                 
-                <button class="calculate-btn" id="calculateBtn" disabled aria-label="投資シミュレーションを実行">
-                    シミュレーション実行
+                <button class="calculate-btn" id="calculateBtn" disabled aria-label="投資比較を実行">
+                    比較実行
                 </button>
             </div>
         </div>
 
         <div class="results" id="results">
             <div class="chart-container">
-                <canvas id="investmentChart" role="img" aria-label="投資シミュレーション結果のグラフ"></canvas>
-            </div>
-            
-            <!-- AdSense広告 -->
-            <div id="adContainer" style="margin: 30px 0; padding: 20px; text-align: center; min-width: 300px; width: 100%; min-height: 280px;">
-                <!-- 広告はJavaScriptで動的に挿入 -->
+                <canvas id="investmentChart" role="img" aria-label="投資比較結果のグラフ"></canvas>
             </div>
             
             <div class="summary-cards">
@@ -387,17 +463,49 @@
                     <div class="card-detail">元本のみ</div>
                 </div>
                 
-                <div class="summary-card insurance-card">
-                    <div class="card-title">貯蓄型保険（利率1%）</div>
-                    <div class="card-amount" id="insuranceAmount">¥0</div>
-                    <div class="card-detail">年1回複利</div>
+                <div class="summary-card investment-card">
+                    <div class="card-title" id="investmentTitle">投資</div>
+                    <div class="card-amount" id="investmentAmount">¥0</div>
+                    <div class="card-detail" id="investmentDetail">年複利</div>
                 </div>
                 
-                <div class="summary-card nisa-card">
-                    <div class="card-title">NISA（利率7%）</div>
-                    <div class="card-amount" id="nisaAmount">¥0</div>
-                    <div class="card-detail">年1回複利</div>
+                <div class="summary-card difference-card">
+                    <div class="card-title">差額（投資 - 銀行）</div>
+                    <div class="card-amount" id="differenceAmount">¥0</div>
+                    <div class="card-detail" id="differenceDetail">利益または損失</div>
                 </div>
+            </div>
+            
+            <div class="preset-buttons">
+                <div class="preset-buttons-title">プリセット利率</div>
+                <div class="preset-grid">
+                    <button class="preset-btn" data-rate="0.2">銀行 定期預金</button>
+                    <button class="preset-btn" data-rate="1.0">学資保険</button>
+                    <button class="preset-btn" data-rate="-100.0">生命保険（掛け捨て）</button>
+                    <button class="preset-btn" data-rate="4.0">投資信託（バランス型）</button>
+                    <button class="preset-btn" data-rate="7.0">米国株インデックス</button>
+                    <button class="preset-btn" data-rate="5.0">パチスロ（設定6）</button>
+                    <button class="preset-btn" data-rate="-0.5">住宅ローン（変動）</button>
+                    <button class="preset-btn" data-rate="-18.0">消費者金融</button>
+                    <button class="preset-btn" data-rate="-15.0">クレジットカードリボ払い</button>
+                    <button class="preset-btn" data-rate="-10.0">パチンコ</button>
+                    <button class="preset-btn" data-rate="0.6">国債</button>
+                    <button class="preset-btn" data-rate="-25.0">競馬（JRA）</button>
+                </div>
+            </div>
+            
+            <div class="year-adjustment">
+                <div class="year-adjustment-title">投資期間調整</div>
+                <div class="year-input-container">
+                    <label class="year-input-label" for="yearsInput">投資期間：</label>
+                    <input type="number" id="yearsInput" class="year-input-field" value="30" min="1" max="100" step="1" aria-label="投資期間を年単位で入力">
+                    <span class="year-input-label">年</span>
+                </div>
+            </div>
+            
+            <!-- AdSense広告 -->
+            <div id="adContainer" style="margin: 30px 0; padding: 20px; text-align: center; min-width: 300px; width: 100%; min-height: 280px;">
+                <!-- 広告はJavaScriptで動的に挿入 -->
             </div>
         </div>
     </div>
@@ -405,33 +513,27 @@
     <script>
         let chart = null;
         const monthlyInput = document.getElementById('monthlyAmount');
-        const yearsInput = document.getElementById('yearsAmount');
+        const interestRateInput = document.getElementById('interestRate');
         const calculateBtn = document.getElementById('calculateBtn');
         const results = document.getElementById('results');
         const bankAmountEl = document.getElementById('bankAmount');
-        const insuranceAmountEl = document.getElementById('insuranceAmount');
-        const nisaAmountEl = document.getElementById('nisaAmount');
+        const investmentAmountEl = document.getElementById('investmentAmount');
+        const investmentTitleEl = document.getElementById('investmentTitle');
+        const investmentDetailEl = document.getElementById('investmentDetail');
+        const differenceAmountEl = document.getElementById('differenceAmount');
+        const differenceDetailEl = document.getElementById('differenceDetail');
+        const yearsInput = document.getElementById('yearsInput');
 
-        function calculateInvestments(monthlyAmount, years) {
-            // キャッシュキーを生成
-            const cacheKey = `${monthlyAmount}-${years}`;
-            
-            // キャッシュから結果を取得
-            if (calculationCache.has(cacheKey)) {
-                return calculationCache.get(cacheKey);
-            }
-
+        function calculateInvestments(monthlyAmount, interestRate, years = 30) {
             const bankData = [];
-            const insuranceData = [];
-            const nisaData = [];
+            const investmentData = [];
             const labels = [];
 
-            // 最適化: 年間積立額を事前計算
+            // 年間積立額を事前計算
             const annualAmount = monthlyAmount * 12;
-
-            // 最適化: 複利計算を効率化
-            let insuranceTotal = 0;
-            let nisaTotal = 0;
+            
+            // 利率を小数に変換
+            const rate = interestRate / 100;
 
             for (let year = 1; year <= years; year++) {
                 labels.push(`${year}年`);
@@ -440,75 +542,65 @@
                 const bankTotal = annualAmount * year;
                 bankData.push(bankTotal);
                 
-                // 貯蓄型保険（年1%複利）
-                if (year === 1) {
-                    insuranceTotal = annualAmount;
-                } else {
-                    insuranceTotal = insuranceTotal * 1.01 + annualAmount;
+                // 投資（年1回複利計算）
+                // 各年末に積立額を追加してから利率を適用
+                let investmentTotal = 0;
+                for (let y = 1; y <= year; y++) {
+                    // y年目の積立額を追加
+                    investmentTotal += annualAmount;
+                    // その後に利率を適用（年末）
+                    investmentTotal = investmentTotal * (1 + rate);
                 }
-                insuranceData.push(Math.round(insuranceTotal));
                 
-                // NISA（年7%複利）
-                if (year === 1) {
-                    nisaTotal = annualAmount;
-                } else {
-                    nisaTotal = nisaTotal * 1.07 + annualAmount;
+                // マイナス利率で0円を下回る場合は0円に補正
+                if (investmentTotal < 0) {
+                    investmentTotal = 0;
                 }
-                nisaData.push(Math.round(nisaTotal));
+                
+                investmentData.push(Math.round(investmentTotal));
             }
 
-            const result = {
+            return {
                 labels,
                 bankData,
-                insuranceData,
-                nisaData,
+                investmentData,
                 finalBank: bankData[bankData.length - 1],
-                finalInsurance: insuranceData[insuranceData.length - 1],
-                finalNisa: nisaData[nisaData.length - 1]
+                finalInvestment: investmentData[investmentData.length - 1],
+                interestRate
             };
-
-            // 結果をキャッシュに保存
-            calculationCache.set(cacheKey, result);
-            
-            // キャッシュサイズ制限（最新20件のみ保持）
-            if (calculationCache.size > 20) {
-                const firstKey = calculationCache.keys().next().value;
-                calculationCache.delete(firstKey);
-            }
-
-            return result;
         }
 
         function formatCurrency(amount) {
             return '¥' + amount.toLocaleString('ja-JP');
         }
 
-        function updateChart(monthlyAmount, years) {
-            // 大きな数値の場合は計算中表示
-            const isLargeCalculation = monthlyAmount >= 500000 || years >= 80;
+        function updateChart(monthlyAmount, interestRate, years = null) {
+            const investmentYears = years || parseInt(yearsInput.value) || 30;
+            const data = calculateInvestments(monthlyAmount, interestRate, investmentYears);
             
-            if (isLargeCalculation) {
-                showCalculatingStatus(true);
-            }
-
-            // 非同期で計算を実行（大きな数値の場合UIをブロックしない）
-            if (isLargeCalculation) {
-                setTimeout(() => {
-                    const data = calculateInvestments(monthlyAmount, years);
-                    updateUI(data);
-                    showCalculatingStatus(false);
-                }, 10);
-            } else {
-                const data = calculateInvestments(monthlyAmount, years);
-                updateUI(data);
-            }
-        }
-
-        function updateUI(data) {
             // サマリーカードの更新
             bankAmountEl.textContent = formatCurrency(data.finalBank);
-            insuranceAmountEl.textContent = formatCurrency(data.finalInsurance);
-            nisaAmountEl.textContent = formatCurrency(data.finalNisa);
+            investmentAmountEl.textContent = formatCurrency(data.finalInvestment);
+            investmentTitleEl.textContent = `投資（利率${interestRate}%）`;
+            investmentDetailEl.textContent = `年${interestRate}%複利`;
+            
+            // 差額の計算と表示
+            const difference = data.finalInvestment - data.finalBank;
+            const sign = difference > 0 ? '+' : difference < 0 ? '-' : '';
+            differenceAmountEl.textContent = `${sign}${formatCurrency(Math.abs(difference))}`;
+            
+            // 差額の色を設定
+            differenceAmountEl.classList.remove('positive', 'negative', 'neutral');
+            if (difference > 0) {
+                differenceAmountEl.classList.add('positive');
+                differenceDetailEl.textContent = '利益';
+            } else if (difference < 0) {
+                differenceAmountEl.classList.add('negative');
+                differenceDetailEl.textContent = '損失';
+            } else {
+                differenceAmountEl.classList.add('neutral');
+                differenceDetailEl.textContent = '差額なし';
+            }
 
             const ctx = document.getElementById('investmentChart').getContext('2d');
             
@@ -522,7 +614,7 @@
                     labels: data.labels,
                     datasets: [
                         {
-                            label: '銀行預金',
+                            label: '銀行預金（0%）',
                             data: data.bankData,
                             borderColor: '#dc3545',
                             backgroundColor: 'rgba(220, 53, 69, 0.1)',
@@ -531,17 +623,8 @@
                             tension: 0.1
                         },
                         {
-                            label: '貯蓄型保険',
-                            data: data.insuranceData,
-                            borderColor: '#fd7e14',
-                            backgroundColor: 'rgba(253, 126, 20, 0.1)',
-                            borderWidth: 3,
-                            fill: false,
-                            tension: 0.1
-                        },
-                        {
-                            label: 'NISA',
-                            data: data.nisaData,
+                            label: `投資（${interestRate}%）`,
+                            data: data.investmentData,
                             borderColor: '#198754',
                             backgroundColor: 'rgba(25, 135, 84, 0.1)',
                             borderWidth: 3,
@@ -664,35 +747,14 @@
             }, 1000);
         }
 
-        function showCalculatingStatus(show) {
-            const resultsElement = document.getElementById('results');
-            const existingMessage = document.querySelector('.calculating-message');
-            
-            if (show) {
-                resultsElement.classList.add('calculating');
-                if (!existingMessage) {
-                    const message = document.createElement('div');
-                    message.className = 'calculating-message';
-                    message.textContent = '計算中...';
-                    resultsElement.appendChild(message);
-                }
-            } else {
-                resultsElement.classList.remove('calculating');
-                if (existingMessage) {
-                    existingMessage.remove();
-                }
-            }
-        }
-
         let hasShownResults = false;
         let debounceTimeout = null;
-        let calculationCache = new Map();
 
         // 両方の入力値をチェックする関数
         function checkInputs() {
-            const amount = parseInt(monthlyInput.value);
-            const years = parseInt(yearsInput.value);
-            return amount && amount >= 1 && years && years >= 1;
+            const amount = parseFloat(monthlyInput.value);
+            const rate = parseFloat(interestRateInput.value);
+            return amount && amount >= 1 && !isNaN(rate) && rate !== null;
         }
 
         // デバウンス処理
@@ -705,14 +767,15 @@
 
         // 入力値の変更でボタンの有効/無効を制御、または結果表示済みならリアルタイム更新
         function handleInputChange() {
-            const amount = parseInt(monthlyInput.value);
-            const years = parseInt(yearsInput.value);
+            const amount = parseFloat(monthlyInput.value);
+            const rate = parseFloat(interestRateInput.value);
             
             if (checkInputs()) {
                 calculateBtn.disabled = false;
                 // 一度結果を表示したらリアルタイム更新（デバウンス処理）
                 if (hasShownResults) {
-                    debouncedUpdate(amount, years);
+                    const years = parseInt(yearsInput.value) || 30;
+                    debouncedUpdate(amount, rate, years);
                 }
             } else {
                 calculateBtn.disabled = true;
@@ -722,35 +785,92 @@
                 }
             }
         }
+        
+        // 利率入力欄の変更を監視（手動入力時に選択状態をクリア）
+        function handleInterestRateChange() {
+            // プリセットボタンからの入力でない場合、選択状態をクリア
+            const currentRate = parseFloat(interestRateInput.value);
+            const presetButtons = document.querySelectorAll('.preset-btn');
+            let foundMatch = false;
+            
+            presetButtons.forEach(btn => {
+                const btnRate = parseFloat(btn.getAttribute('data-rate'));
+                if (Math.abs(btnRate - currentRate) < 0.01) { // 小数点誤差を考慮
+                    foundMatch = true;
+                }
+            });
+            
+            if (!foundMatch) {
+                clearPresetSelection();
+            }
+            
+            handleInputChange();
+        }
 
         // デバウンス処理を適用した更新関数
-        const debouncedUpdate = debounce((amount, years) => {
-            updateChart(amount, years);
+        const debouncedUpdate = debounce((amount, rate, years) => {
+            updateChart(amount, rate, years);
         }, 500);
 
         monthlyInput.addEventListener('input', handleInputChange);
-        yearsInput.addEventListener('input', handleInputChange);
+        interestRateInput.addEventListener('input', handleInterestRateChange);
 
-        // ボタンクリックでシミュレーション実行
+        // プリセットボタンの処理
+        function setupPresetButtons() {
+            const presetButtons = document.querySelectorAll('.preset-btn');
+            presetButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const rate = this.getAttribute('data-rate');
+                    interestRateInput.value = rate;
+                    
+                    // 他のボタンの選択状態を解除
+                    presetButtons.forEach(btn => btn.classList.remove('selected'));
+                    
+                    // 現在のボタンを選択状態にする
+                    this.classList.add('selected');
+                    
+                    // 金額が入力されていれば自動で更新
+                    const amount = parseFloat(monthlyInput.value);
+                    if (amount && amount >= 1) {
+                        if (hasShownResults) {
+                            const years = parseInt(yearsInput.value) || 30;
+                            updateChart(amount, parseFloat(rate), years);
+                        } else {
+                            calculateBtn.disabled = false;
+                        }
+                    }
+                });
+            });
+        }
+        
+        // 利率入力欄の変更時に選択状態をリセットする関数
+        function clearPresetSelection() {
+            const presetButtons = document.querySelectorAll('.preset-btn');
+            presetButtons.forEach(btn => btn.classList.remove('selected'));
+        }
+
+        // ボタンクリックで比較実行
         calculateBtn.addEventListener('click', function() {
-            const amount = parseInt(monthlyInput.value);
-            const years = parseInt(yearsInput.value);
+            const amount = parseFloat(monthlyInput.value);
+            const rate = parseFloat(interestRateInput.value);
+            const years = parseInt(yearsInput.value) || 30;
             if (checkInputs()) {
                 hasShownResults = true;
-                updateChart(amount, years);
+                updateChart(amount, rate, years);
                 // ボタンを非表示にする
                 calculateBtn.style.display = 'none';
             }
         });
 
-        // Enterキーでもシミュレーション実行
+        // Enterキーでも比較実行
         function handleEnterKey(e) {
             if (e.key === 'Enter') {
-                const amount = parseInt(monthlyInput.value);
-                const years = parseInt(yearsInput.value);
+                const amount = parseFloat(monthlyInput.value);
+                const rate = parseFloat(interestRateInput.value);
+                const years = parseInt(yearsInput.value) || 30;
                 if (checkInputs() && !calculateBtn.disabled) {
                     hasShownResults = true;
-                    updateChart(amount, years);
+                    updateChart(amount, rate, years);
                     // ボタンを非表示にする
                     calculateBtn.style.display = 'none';
                 }
@@ -758,23 +878,35 @@
         }
 
         monthlyInput.addEventListener('keypress', handleEnterKey);
+        interestRateInput.addEventListener('keypress', handleEnterKey);
         yearsInput.addEventListener('keypress', handleEnterKey);
+        
+        // 年数入力の変更でリアルタイム更新
+        yearsInput.addEventListener('input', function() {
+            if (hasShownResults) {
+                const amount = parseFloat(monthlyInput.value);
+                const rate = parseFloat(interestRateInput.value);
+                const years = parseInt(yearsInput.value) || 30;
+                if (amount && amount >= 1 && !isNaN(rate)) {
+                    debouncedUpdate(amount, rate, years);
+                }
+            }
+        });
 
         // 初期表示はシンプルに（結果非表示）
         monthlyInput.value = '';
-        yearsInput.value = '';
+        interestRateInput.value = '';
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('投資シミュレータ準備完了');
+            setupPresetButtons();
+            console.log('シンプル投資比較ツール準備完了');
         });
     </script>
 
     <footer style="margin-top: 120px; font-size: 13px; color: #9c948b; text-align: center; max-width: 650px; width: 100%; margin-left: auto; margin-right: auto; line-height: 1.6;">
-        投資シミュレータは、銀行預金・貯蓄型保険・NISAの<br>
-        資産推移を比較できる無料ツールです。<br>
-        すべての計算はブラウザ内で完結し、データが外部に送信されることはありません。
-        <br><br>
-        <a href="https://www.coommu.com/" style="color: #9c948b;">▶ Browse more free tools</a>
+        この積立投資シミュレーターでは、毎月の積立額と利率を入力するだけで、銀行預金（利率０％）と投資利率による30年間の資産推移を無料でグラフ比較できます。<br>
+        利率は自由に入力できるほか、よく使われる金融商品（学資保険・NISA・リボ払いなど）の利率もプリセットで簡単に試せます。<br>
+        本ツールはすべてブラウザ上で完結し、入力したデータは外部に送信されません。
     </footer>
 </body>
 </html>
